@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:js_interop';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -36,6 +39,29 @@ class ContactHelper {
           "CREATE TABLE $contactTable($idColumn INTERGER PRIMARY KEY, $nameColumn TEXT, $emailColumn TEXT, $phoneColumn TEXT, $imgColumn TEXT)");
     });
   }
+
+  Future<Contact> saveContact(Contact contact) async {
+    Database dbContact = await db; //inicio o banco de dados
+    contact.id = await dbContact.insert(
+        contactTable,
+        contact
+            .toMap()); // adiciono o objeto com as informações no banco de dados
+    return contact;
+  }
+
+  Future<Contact> getContact(int id) async {
+    Database dbContact = await db; //inicio o banco de dados
+    List<Map> maps = await dbContact.query(contactTable,
+        columns: [idColumn, nameColumn, emailColumn, phoneColumn, imgColumn],
+        where: "$idColumn = ?",
+        whereArgs: [id]);
+
+    if (maps.length > 0) {
+      return Contact.fromMap(maps.first);
+    } else {
+      return Contact.fromMap({});
+    }
+  }
 }
 
 class Contact {
@@ -53,7 +79,7 @@ class Contact {
     img = map[imgColumn];
   }
 
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       nameColumn: name,
       emailColumn: email,
