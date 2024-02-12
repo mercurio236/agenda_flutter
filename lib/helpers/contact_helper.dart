@@ -62,6 +62,41 @@ class ContactHelper {
       return Contact.fromMap({});
     }
   }
+
+  Future<int> deleteContact(int id) async {
+    Database dbContact = await db; //inicio o banco de dados
+    return await dbContact
+        .delete(contactTable, where: '$idColumn = ?', whereArgs: [id]);
+  }
+
+  Future<int> updateContact(Contact contact) async {
+    Database dbContact = await db; //inicio o banco de dados
+    return await dbContact.update(contactTable, contact.toMap(),
+        where: '$idColumn =?', whereArgs: [contact.id]);
+  }
+
+  Future<List>getAllContacts() async{
+    Database dbContact = await db; //inicio o banco de dados
+    List listMap = await dbContact.rawQuery("SELECT * FROM $contactTable");
+    List<Contact> listContact = [];
+
+    for(Map m in listMap){
+      listContact.add(Contact.fromMap(m));
+    }
+
+    return listContact;
+  }
+
+  Future getNumber() async { //quantidade de contatos na tabela
+    Database dbContact = await db; //inicio o banco de dados
+    return Sqflite.firstIntValue(await dbContact.rawQuery("SELECT COUNT(*) FROM $contactTable"));
+
+  }
+
+ Future close() async{
+    Database dbContact = await db; //inicio o banco de dados
+    dbContact.close();
+  }
 }
 
 class Contact {
