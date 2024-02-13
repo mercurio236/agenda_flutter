@@ -76,10 +76,10 @@ class ContactHelper {
         where: '$idColumn =?', whereArgs: [contact.id]);
   }
 
-  Future<List>getAllContacts() async{
+  Future<List<Contact>>getAllContacts() async{
     Database? dbContact = await db; //inicio o banco de dados
     if(dbContact == null) throw 'erro ao iniciar';
-    List listMap = await dbContact.rawQuery("SELECT * FROM $contactTable");
+    List<Map<String, dynamic>> listMap = await dbContact.rawQuery("SELECT * FROM $contactTable");
     List<Contact> listContact = [];
 
     for(Map m in listMap){
@@ -104,11 +104,11 @@ class ContactHelper {
 }
 
 class Contact {
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  String? img;
+  late int id;
+  late String name;
+  late String email;
+  late String phone;
+  late String img;
 
   Contact();
 
