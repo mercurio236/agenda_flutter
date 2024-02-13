@@ -81,23 +81,23 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 10),
-                child: Column(children: [
-                  Text(
-                    contacts[index].name ?? '',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
-                  Text(
-                    contacts[index].email ?? '',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Text(
-                    contacts[index].phone ?? '',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  
-                             
-                            
-                ]),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        contacts[index].name ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22),
+                      ),
+                      Text(
+                        contacts[index].email ?? '',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        contacts[index].phone ?? '',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ]),
               )
             ],
           ),
