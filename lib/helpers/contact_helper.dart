@@ -15,9 +15,9 @@ class ContactHelper {
 
   ContactHelper.internal();
 
-  Database? _db;
+  late Database _db;
 
-  Future<Database?> get db async {
+  Future<Database> get db async {
     if (_db != null) {
       return _db;
     } else {
@@ -104,11 +104,11 @@ class ContactHelper {
 }
 
 class Contact {
-  late int id;
-  late String name;
-  late String email;
-  late String phone;
-  late String img;
+  int? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? img;
 
   Contact();
 
