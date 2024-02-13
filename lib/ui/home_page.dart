@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:agenda_flutter/helpers/contact_helper.dart';
 import 'package:agenda_flutter/ui/contact_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -24,6 +25,16 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     getAllContacts();
+  }
+
+  Future<void> _callPhone(String phoneNumber) async {
+    String url = 'tel:$phoneNumber';
+
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Não foi possível redirecionar $url';
+    }
   }
 
   @override
@@ -121,7 +132,10 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: EdgeInsets.all(10),
                       child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _callPhone(contacts[index].phone);
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             "Ligar",
                             style: TextStyle(color: Colors.red, fontSize: 20),
